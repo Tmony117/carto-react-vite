@@ -5,11 +5,12 @@ import { VOYAGER } from "@carto/react-basemaps";
 import { API_VERSIONS } from "@deck.gl/carto/typed";
 import { ReactNode } from "react";
 
+// Ghana-centered view for West Africa mining analysis
 const initialState: InitialCarto3State = {
   viewState: {
-    latitude: 31.802892,
-    longitude: -103.007813,
-    zoom: 2,
+    latitude: 7.9465, // Ghana center
+    longitude: -1.0232,
+    zoom: 7,
     pitch: 0,
     bearing: 0,
     dragRotate: false,
