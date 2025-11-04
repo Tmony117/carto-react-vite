@@ -39,7 +39,7 @@ const useMap = () => {
 function App() {
   useCredentials();
   const { viewState, basemap } = useMap();
-  const { layers } = useSimpleMiningLayers();
+  const { layers, getTooltip } = useSimpleMiningLayers();
 
   return (
     <Grid container sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -97,7 +97,12 @@ function App() {
           <MiningWidgets />
         </Grid>
         <Grid item component="section" sx={{ flex: "1", position: "relative", display: "flex" }}>
-          <DeckGL initialViewState={viewState} layers={layers} controller={true}>
+          <DeckGL 
+            initialViewState={viewState} 
+            layers={layers} 
+            controller={true}
+            getTooltip={getTooltip}
+          >
             <Map mapLib={maplibregl} mapStyle={basemap} />
           </DeckGL>
         </Grid>

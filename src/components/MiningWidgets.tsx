@@ -1,5 +1,8 @@
-import { Grid, Paper, Typography, Box, Chip } from "@mui/material";
+import { Grid, Paper, Typography, Box, Chip, Checkbox } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { updateLayer } from "@carto/react-redux";
 import { MINING_DATA_SOURCES } from "../config/miningDataConfig";
+import { getMockDataStats } from "./SimpleMiningLayers";
 
 // You can import and use CARTO widgets when connected to real data
 // import { FormulaWidget, CategoryWidget, HistogramWidget } from "@carto/react-widgets";
@@ -28,6 +31,30 @@ const StatCard = ({ title, value, subtitle, color = "#1976d2" }: MiningStatsProp
 );
 
 export const MiningWidgets = () => {
+  const dispatch = useDispatch();
+  const layers = useSelector((state: any) => state.carto?.layers || {});
+  const stats = getMockDataStats();
+
+  const toggleLayer = (layerId: string) => {
+    const currentLayer = layers[layerId];
+    // Check if layer exists and get its current visibility
+    // Default to true if layer doesn't exist yet (layers are visible by default)
+    const isVisible = currentLayer?.visible !== false;
+    
+    dispatch(updateLayer({
+      id: layerId,
+      layerAttributes: {
+        visible: !isVisible,
+      },
+    }));
+  };
+
+  const isLayerVisible = (layerId: string) => {
+    const layer = layers[layerId];
+    // Default to visible if layer doesn't exist in Redux yet
+    return layer?.visible !== false;
+  };
+
   return (
     <Box sx={{ height: "100%", overflow: "auto" }}>
       <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600, color: "#DAA520" }}>
@@ -39,7 +66,7 @@ export const MiningWidgets = () => {
         <Grid item xs={12}>
           <StatCard
             title="Gold Concessions"
-            value="100"
+            value={stats.concessions}
             subtitle="Licensed gold areas"
             color="#DAA520"
           />
@@ -47,7 +74,7 @@ export const MiningWidgets = () => {
         <Grid item xs={12}>
           <StatCard
             title="Active Gold Mines"
-            value="50"
+            value={stats.mines}
             subtitle="Operational sites"
             color="#FFD700"
           />
@@ -55,7 +82,7 @@ export const MiningWidgets = () => {
         <Grid item xs={12}>
           <StatCard
             title="Gold Transactions"
-            value="30"
+            value={stats.transactions}
             subtitle="Recent activity"
             color="#B8860B"
           />
@@ -90,6 +117,7 @@ export const MiningWidgets = () => {
         </Typography>
         <Box sx={{ mt: 1 }}>
           <Box
+            onClick={() => toggleLayer("ghanaGoldConcessionsLayer")}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -100,6 +128,11 @@ export const MiningWidgets = () => {
               borderRadius: 1,
             }}
           >
+            <Checkbox
+              checked={isLayerVisible("ghanaGoldConcessionsLayer")}
+              size="small"
+              sx={{ p: 0, mr: 1 }}
+            />
             <Box
               sx={{
                 width: 16,
@@ -113,6 +146,7 @@ export const MiningWidgets = () => {
             <Typography variant="body2">Gold Concessions</Typography>
           </Box>
           <Box
+            onClick={() => toggleLayer("ghanaGoldMinesLayer")}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -123,6 +157,11 @@ export const MiningWidgets = () => {
               borderRadius: 1,
             }}
           >
+            <Checkbox
+              checked={isLayerVisible("ghanaGoldMinesLayer")}
+              size="small"
+              sx={{ p: 0, mr: 1 }}
+            />
             <Box
               sx={{
                 width: 16,
@@ -136,6 +175,7 @@ export const MiningWidgets = () => {
             <Typography variant="body2">Gold Mines</Typography>
           </Box>
           <Box
+            onClick={() => toggleLayer("ghanaGoldTransactionsLayer")}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -146,6 +186,11 @@ export const MiningWidgets = () => {
               borderRadius: 1,
             }}
           >
+            <Checkbox
+              checked={isLayerVisible("ghanaGoldTransactionsLayer")}
+              size="small"
+              sx={{ p: 0, mr: 1 }}
+            />
             <Box
               sx={{
                 width: 16,
@@ -158,6 +203,7 @@ export const MiningWidgets = () => {
             <Typography variant="body2">Transactions</Typography>
           </Box>
           <Box
+            onClick={() => toggleLayer("ghanaGoldHeatmapLayer")}
             sx={{
               display: "flex",
               alignItems: "center",
@@ -167,6 +213,11 @@ export const MiningWidgets = () => {
               borderRadius: 1,
             }}
           >
+            <Checkbox
+              checked={isLayerVisible("ghanaGoldHeatmapLayer")}
+              size="small"
+              sx={{ p: 0, mr: 1 }}
+            />
             <Box
               sx={{
                 width: 16,

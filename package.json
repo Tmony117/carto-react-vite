@@ -18,6 +18,7 @@
     "@deck.gl/aggregation-layers": "^8.9.18",
     "@deck.gl/carto": "^8.9.18",
     "@deck.gl/geo-layers": "^8.9.18",
+    "@deck.gl/layers": "^8.9.36",
     "@deck.gl/react": "^8.9.18",
     "@mui/material": "^5.13.1",
     "maplibre-gl": "^2.4.0",
